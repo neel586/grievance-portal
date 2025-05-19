@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daisy’s Grievance Portal 💌🎀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background-image: url('IMG_0142.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #4a4a4a;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: rgba(255, 192, 203, 0.85);
+      max-width: 500px;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
+      text-align: center;
+      animation: fadeIn 0.7s;
+      transition: box-shadow 0.3s;
+    }
+    .container:not(.hidden) {
+      animation: fadeIn 0.7s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .popup-animate {
+      animation: popupBounce 0.7s;
+    }
+    @keyframes popupBounce {
+      0%   { transform: scale(0.7); opacity: 0; }
+      60%  { transform: scale(1.1); opacity: 1; }
+      80%  { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+    h1, h2, label {
+      color: #d63384;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #fff0f5;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: box-shadow 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 6px #ff69b4;
+    }
+    button {
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover {
+      background-color: #ff1493;
+      transform: scale(1.03);
+    }
+    .hidden {
+      display: none;
+    }
+    .message {
+      background-color: #ffe4ec;
+      padding: 1.5rem;
+      border-radius: 15px;
+      margin-top: 1rem;
+      animation: fadeIn 0.7s;
+    }
+    @media (max-width: 600px) {
+      .container {
+        max-width: 95vw;
+        margin: 10% auto;
+        padding: 1rem;
+        border-radius: 12px;
+      }
+      h1, h2 {
+        font-size: 1.3rem;
+      }
+      label {
+        font-size: 1rem;
+      }
+      input, select, textarea, button {
+        font-size: 0.95rem;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="login-box">
+    <h1>Grievance Portal, Mouse 🐭</h1>
+    <p>As requested, you can submit your lame, made-up grievances for my viewing pleasure 💅✨</p>
+    <h2>Daisy’s Grievance Portal 💌🎀</h2>
+    <input type="text" placeholder="Username" id="username" />
+    <input type="password" placeholder="Password" id="password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div class="container hidden" id="form-box">
+    <h2>Submit a Grievance 📝</h2>
+    <input type="text" placeholder="Title" id="title" />
+    <textarea rows="4" placeholder="What's bothering you? 😢" id="grievance"></textarea>
+    <label>Mood 😶‍🌫️</label>
+    <select id="mood">
+      <option>😡 Mad</option>
+      <option>😢 Sad</option>
+      <option>🥺 Pouty</option>
+      <option>🤡 Clown moment</option>
+      <option>🫠 Melting in emotions</option>
+      <option>🧚‍♀️ Delulu but cute</option>
+    </select>
+    <label>Severity 🌶️</label>
+    <select id="severity">
+      <option>🌶️ Just a sprinkle like mild schezwan sauce</option>
+      <option>🍟 Serious like stealing my French fries</option>
+      <option>🍫 Critical like hiding my KitKat</option>
+      <option>🌋 Explosive like soggy Doritos in a storm</option>
+      <option>🥟 Pan-fried momo betrayal level</option>
+    </select>
+    <button onclick="submitForm()">Submit</button>
+  </div>
+
+  <div class="container hidden" id="thankyou-box">
+    <div class="message" id="thankyou-message">
+      <p>Thank you, Daisy 💖 Your grievance has been sent to Neel 💌 He will get back to you very soon! (He will think about it 🧠).</p>
+      <button onclick="submitAnother()">Submit another 🫶</button>
+    </div>
+  </div>
+
+  <audio id="login-beats" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa1e6c.mp3" preload="auto"></audio>
+  <audio id="submit-ding" src="https://cdn.pixabay.com/audio/2022/10/16/audio_124bfa1e6c.mp3" preload="auto"></audio>
+  <audio id="click-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9f1b1b.mp3" preload="auto"></audio>
+
+  <script>
+    function playClickSound() {
+      const click = document.getElementById('click-sound');
+      click.currentTime = 0;
+      click.play();
+    }
+
+    function login() {
+      document.getElementById('login-beats').currentTime = 0;
+      document.getElementById('login-beats').play();
+      document.getElementById("login-box").classList.add("hidden");
+      document.getElementById("form-box").classList.remove("hidden");
+    }
+
+    function submitForm() {
+      const ding = document.getElementById('submit-ding');
+      ding.currentTime = 0;
+      ding.play();
+
+      document.getElementById("form-box").classList.add("hidden");
+      document.getElementById("thankyou-box").classList.remove("hidden");
+
+      const msg = document.getElementById('thankyou-message');
+      msg.classList.remove('popup-animate');
+      void msg.offsetWidth;
+      msg.classList.add('popup-animate');
+    }
+
+    function submitAnother() {
+      playClickSound();
+      document.getElementById("title").value = "";
+      document.getElementById("grievance").value = "";
+      document.getElementById("mood").selectedIndex = 0;
+      document.getElementById("severity").selectedIndex = 0;
+      document.getElementById("thankyou-box").classList.add("hidden");
+      document.getElementById("form-box").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
